@@ -45,6 +45,11 @@ function processRequest() {
     var ctx = gCanvas.getContext("2d");
     console.log(ctx);
     let imgData = ctx.getImageData(0, 0, gCanvas.width, gCanvas.height);
+
+    makeItGray(imgData);
+
+    ctx.putImageData(imgData, 0, 0);
+
     document.getElementById('preview2').src = gCanvas.toDataURL();
 
 
@@ -55,7 +60,7 @@ function processRequest() {
 
 
 function makeItGray(imageData) {
-    let threshold = 100;
+    let threshold = 200;
     for (let i = 0; i < imageData.data.length; i+=4) {
         imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = imageData.data[i] > threshold ? 255 : 0;
     }
