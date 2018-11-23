@@ -48,6 +48,10 @@ function processRequest() {
 
     makeItGray(imgData);
 
+    console.log(imgData);
+
+    prepareText(imgData);
+
     ctx.putImageData(imgData, 0, 0);
 
     document.getElementById('preview2').src = gCanvas.toDataURL();
@@ -68,6 +72,27 @@ function prepareText(imageData) {
         let line = [];
         let column = 0;
         let row = 0;
+        for(let m = 0; m < imageData.width; m += 8) {
+            let sum = 0;
+            for (let j = 0; j < 8; j++) {
+                for (let k = 0; k < 8; k++) {
+                    //console.log(i * 8 * imageData.width + m + j * imageData.width + k);
+                    sum += imageData.data[i * 8 * imageData.width + m + j * imageData.width + k];
+                }
+            }
+            line[column] = sum % part;
+            console.log(line[column]);
+        }
+        result[row] = line;
+        row++;
+    }
+
+    console.log(result);
+
+    /*for (let i = 0; i < imageData.height; i += 8) {
+        let line = [];
+        let column = 0;
+        let row = 0;
         for (let j = 0; j < imageData.width; j += 8) {
             let sum = 0;
             for (let k = 0; k < 8; k ++) {
@@ -80,7 +105,7 @@ function prepareText(imageData) {
         }
         result[row] = line;
         row++;
-    }
+    }*/
 }
 
 function makeItGray(imageData) {
