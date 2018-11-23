@@ -80,7 +80,7 @@ function generateTextImage(dataArray) {
 function getMatrixFromImageData(imgData) {
     // let res = Array.matrix(50, 50, 0);
     // let res = new Array(5).fill(0).map(() => new Array(4).fill(0));
-    let res = new Array(50*50).fill(0);
+    let res = new Array(400*400).fill(0);
     // matrix [i][j] -> arr [ i*m + j ]
 
     for (let i = 0, j = 0; i < imgData.data.length; i += 4, j += 1) {
@@ -126,24 +126,7 @@ function prepareText(imageData) {
     }
 
     console.log(result);
-
-    /*for (let i = 0; i < imageData.height; i += 8) {
-        let line = [];
-        let column = 0;
-        let row = 0;
-        for (let j = 0; j < imageData.width; j += 8) {
-            let sum = 0;
-            for (let k = 0; k < 8; k ++) {
-                for (let l = 0; l < 8; l++) {
-                    sum += imageData[i + k][j + l];
-                }
-            }
-            line[column] = sum % part;
-            console.log(line[column]);
-        }
-        result[row] = line;
-        row++;
-    }*/
+    return result
 }
 
 function makeItGray(imageData) {
