@@ -61,7 +61,8 @@ function processRequest() {
     let matr = getMatrixFromImageData(imgData);
     console.log(matr);
 
-    generateTextImage(res);
+    let text = generateTextImage(res);
+    printResultToTextArea(text);
 
     // let pic = getCurrentPicture();
     // let ascii = getAsciiPictureRepresentation(pic);
