@@ -1,4 +1,5 @@
 let gCanvas = undefined;
+let step = 4;
 
 symbols = [String.fromCharCode(9607), '#', ':', '.'];
 
@@ -48,7 +49,8 @@ function processRequest() {
     console.log(ctx);
     let imgData = ctx.getImageData(0, 0, gCanvas.width, gCanvas.height);
 
-    makeItGray(imgData);
+    //makeItGray(imgData);
+    makeItBlackAndWhite(imgData);
 
     console.log(imgData);
 
@@ -113,19 +115,19 @@ function prepareText(imageData) {
 
     //console.log(imageData.data[0] + "+++++++++" + imageData.data[1] + "+++++++++" + imageData.data[2] + "+++++++++" + imageData.data[3]);
 
-    let max = 3 * 8 * 8 * 255;
+    let max = 3 * step * step * 255;
     let part = max / 4;
     let result = [];
 
     let row = 0;
 
-    for (let i = 0; i < imageData.height; i += 8) {
+    for (let i = 0; i < imageData.height; i += step) {
         let line = [];
         let column = 0;
-        for(let m = 0; m < imageData.width * 4; m += 32) {
+        for(let m = 0; m < imageData.width * 4; m += step * 4) {
             let sum = 0;
-            for (let j = 0; j < 8; j++) {
-                for (let k = 0; k < 32; k += 4) {
+            for (let j = 0; j < step; j++) {
+                for (let k = 0; k < step * 4; k += 4) {
                     for (let p = 0; p < 3; p++) {
                         //console.log(i * imageData.width + m + j * imageData.width * 4 + k + p);
                         sum += imageData.data[i * imageData.width * 4 + m + j * imageData.width * 4 + k + p];
