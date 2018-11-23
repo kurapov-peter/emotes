@@ -54,15 +54,19 @@ function processRequest() {
 
     res = prepareText(imgData);
 
-    ctx.putImageData(imgData, 0, 0);
-
-    document.getElementById('preview2').src = gCanvas.toDataURL();
+    //ctx.putImageData(imgData, 0, 0);
 
     let matr = getMatrixFromImageData(imgData);
     console.log(matr);
 
     let text = generateTextImage(res);
     printResultToTextArea(text);
+
+    makeItBlackAndWhite(imgData);
+
+    ctx.putImageData(imgData, 0, 0);
+
+    document.getElementById('preview2').src = gCanvas.toDataURL();
 
     // let pic = getCurrentPicture();
     // let ascii = getAsciiPictureRepresentation(pic);
@@ -148,6 +152,13 @@ function makeItGray(imageData) {
             imageData.data[i+2] * 0.11);
         imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = luma;
         imageData.data[i+3] = 255;
+    }
+}
+
+function makeItBlackAndWhite(imageData) {
+    let threshold = 125;
+    for (let i = 0; i < imageData.data.length; i+=4) {
+        imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = imageData.data[i] > threshold ? 255 : 0;
     }
 }
 
