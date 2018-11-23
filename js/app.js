@@ -1,3 +1,6 @@
+let gCanvas = undefined;
+
+
 function handleFileSelect(evt) {
     let file = evt.target.files[0];
     console.log(file.name);
@@ -10,9 +13,9 @@ function handleFileSelect(evt) {
 
             img.onload = function () {
                 console.log("LOADED");
-                let canvas = resizeImage(this, file);
+                gCanvas = resizeImage(this, file);
 
-                document.getElementById('preview').src = canvas;
+                document.getElementById('preview').src = gCanvas.toDataURL(file.type);
             };
 
         };
@@ -25,23 +28,25 @@ function handleFileSelect(evt) {
 document.getElementById('myFile').addEventListener('change', handleFileSelect, false);
 
 
-// function processRequest() {
-//
-// }
-
 function processRequest() {
-    var img = document.getElementById("preview");
-    console.log(img);
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
+    // var img = document.getElementById("preview");
+    // console.log(img);
+    // var canvas = document.createElement("canvas");
+    // var ctx = canvas.getContext("2d");
+    // ctx.drawImage(img, 0, 0);
+    //
+    // console.log(ctx);
+    //
+    // let imgData = ctx.getImageData(0, 0, img.width, img.height);
+    // console.log(imgData);
+    //
+    // document.getElementById('preview2').src = canvas.toDataURL();
 
+    var ctx = gCanvas.getContext("2d");
     console.log(ctx);
+    let imgData = ctx.getImageData(0, 0, gCanvas.width, gCanvas.height);
+    document.getElementById('preview2').src = gCanvas.toDataURL();
 
-    let imgData = ctx.getImageData(0, 0, img.width, img.height);
-    console.log(imgData);
-
-    document.getElementById('preview2').src = canvas.toDataURL();
 
     // let pic = getCurrentPicture();
     // let ascii = getAsciiPictureRepresentation(pic);
@@ -100,7 +105,7 @@ function resizeImage(img, file) {
     var ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0, width, height);
 
-    dataurl = canvas.toDataURL(file.type);
+    // dataurl = canvas.toDataURL(file.type);
 
-    return dataurl;
+    return canvas;
 }
