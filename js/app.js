@@ -1,5 +1,20 @@
 let gCanvas = undefined;
 
+symbols = ['.', ':', '#', String.fromCharCode(9607)];
+
+
+Array.matrix = function(numrows, numcols, initial) {
+    let arr = [];
+    for (let i = 0; i < numrows; ++i) {
+        let columns = [];
+        for (let j = 0; j < numcols; ++j) {
+            columns[j] = 0;
+        }
+        arr[i] = columns;
+    }
+    return arr;
+};
+
 
 function handleFileSelect(evt) {
     let file = evt.target.files[0];
@@ -29,19 +44,6 @@ document.getElementById('myFile').addEventListener('change', handleFileSelect, f
 
 
 function processRequest() {
-    // var img = document.getElementById("preview");
-    // console.log(img);
-    // var canvas = document.createElement("canvas");
-    // var ctx = canvas.getContext("2d");
-    // ctx.drawImage(img, 0, 0);
-    //
-    // console.log(ctx);
-    //
-    // let imgData = ctx.getImageData(0, 0, img.width, img.height);
-    // console.log(imgData);
-    //
-    // document.getElementById('preview2').src = canvas.toDataURL();
-
     var ctx = gCanvas.getContext("2d");
     console.log(ctx);
     let imgData = ctx.getImageData(0, 0, gCanvas.width, gCanvas.height);
@@ -56,12 +58,46 @@ function processRequest() {
 
     document.getElementById('preview2').src = gCanvas.toDataURL();
 
+    let matr = getMatrixFromImageData(imgData);
+    console.log(matr)
 
     // let pic = getCurrentPicture();
     // let ascii = getAsciiPictureRepresentation(pic);
     // drawTheResult(ascii)
 }
 
+
+function generateTextImage(dataArray) {
+    let text = [];
+    for (let i = 0; i < dataArray.length; i += 1) {
+        text.push(symbols[dataArray[i]])
+    }
+
+    return text.join("")
+}
+
+
+function getMatrixFromImageData(imgData) {
+    // let res = Array.matrix(50, 50, 0);
+    // let res = new Array(5).fill(0).map(() => new Array(4).fill(0));
+    let res = new Array(50*50).fill(0);
+    // matrix [i][j] -> arr [ i*m + j ]
+
+    for (let i = 0, j = 0; i < imgData.data.length; i += 4, j += 1) {
+        // console.log(j, Math.floor(j / 50), j % 50);
+        res[j] =
+            imgData.data[i] +
+            imgData.data[i + 1] +
+            imgData.data[i + 2] +
+            imgData.data[i + 3]
+    }
+
+    return res
+}
+
+function printResultToTextArea(str) {
+    document.getElementById("pictext").value = str
+}
 
 function prepareText(imageData) {
     let max = 8 * 8 * 255;
