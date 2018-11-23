@@ -5,13 +5,15 @@ function handleFileSelect(evt) {
     if (file) {
         let reader = new FileReader();
         reader.onload = function(e) {
-            let img = document.createElement("img");
+            let img = new Image();
             img.src = e.target.result;
-            let canvas = resizeImage(img, file);
 
-            console.log(canvas);
+            img.onload = function () {
+                console.log("LOADED");
+                let canvas = resizeImage(this, file);
 
-            document.getElementById('preview').src = canvas;
+                document.getElementById('preview').src = canvas;
+            };
 
         };
         reader.readAsDataURL(file);
@@ -61,6 +63,7 @@ function resizeImage(img, file) {
             height = MAX_HEIGHT;
         }
     }
+
     canvas.width = width;
     canvas.height = height;
     var ctx = canvas.getContext("2d");
