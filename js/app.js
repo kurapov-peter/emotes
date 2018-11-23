@@ -52,14 +52,16 @@ function processRequest() {
 
     console.log(imgData);
 
-    prepareText(imgData);
+    res = prepareText(imgData);
 
     ctx.putImageData(imgData, 0, 0);
 
     document.getElementById('preview2').src = gCanvas.toDataURL();
 
     let matr = getMatrixFromImageData(imgData);
-    console.log(matr)
+    console.log(matr);
+
+    generateTextImage(res);
 
     // let pic = getCurrentPicture();
     // let ascii = getAsciiPictureRepresentation(pic);
@@ -70,9 +72,12 @@ function processRequest() {
 function generateTextImage(dataArray) {
     let text = [];
     for (let i = 0; i < dataArray.length; i += 1) {
-        text.push(symbols[dataArray[i]])
+        for (let j = 0; j < dataArray[i].length; j += 1) {
+            text.push(symbols[dataArray[i][j]])
+        }
     }
 
+    console.log(text);
     return text.join("")
 }
 
