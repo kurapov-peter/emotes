@@ -1,5 +1,7 @@
 let gCanvas = undefined;
 
+symbols = ['.', ':', '#', String.fromCharCode(9607)];
+
 
 function handleFileSelect(evt) {
     let file = evt.target.files[0];
@@ -29,19 +31,6 @@ document.getElementById('myFile').addEventListener('change', handleFileSelect, f
 
 
 function processRequest() {
-    // var img = document.getElementById("preview");
-    // console.log(img);
-    // var canvas = document.createElement("canvas");
-    // var ctx = canvas.getContext("2d");
-    // ctx.drawImage(img, 0, 0);
-    //
-    // console.log(ctx);
-    //
-    // let imgData = ctx.getImageData(0, 0, img.width, img.height);
-    // console.log(imgData);
-    //
-    // document.getElementById('preview2').src = canvas.toDataURL();
-
     var ctx = gCanvas.getContext("2d");
     console.log(ctx);
     let imgData = ctx.getImageData(0, 0, gCanvas.width, gCanvas.height);
@@ -52,17 +41,25 @@ function processRequest() {
 
     document.getElementById('preview2').src = gCanvas.toDataURL();
 
-
     // let pic = getCurrentPicture();
     // let ascii = getAsciiPictureRepresentation(pic);
     // drawTheResult(ascii)
 }
 
 
+function generateTextImage(dataArray) {
+    let text = [];
+    for (let i = 0; i < dataArray.length; i += 1) {
+        text.push(symbols[dataArray[i]])
+    }
+
+    return text.join("")
+}
+
 function makeItGray(imageData) {
-    let threshold = 200;
-    for (let i = 0; i < imageData.data.length; i+=4) {
-        imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = imageData.data[i] > threshold ? 255 : 0;
+    for (var i = 0; i < imageData.data.length; i+=4) {
+        imageData.data[i] = imageData.data[i+1] = imageData.data[i+2];
+        imageData.data[i+3] = 255;
     }
 }
 
