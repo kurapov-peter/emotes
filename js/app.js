@@ -1,6 +1,6 @@
 let gCanvas = undefined;
 
-symbols = ['.', ':', '#', String.fromCharCode(9607)];
+symbols = [String.fromCharCode(9607), '#', ':', '.'];
 
 
 Array.matrix = function(numrows, numcols, initial) {
