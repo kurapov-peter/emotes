@@ -77,11 +77,12 @@ function prepareText(imageData) {
             for (let j = 0; j < 8; j++) {
                 for (let k = 0; k < 8; k++) {
                     //console.log(i * 8 * imageData.width + m + j * imageData.width + k);
-                    sum += imageData.data[i * 8 * imageData.width + m + j * imageData.width + k];
+                    sum += imageData.data[i * imageData.width + m + j * imageData.width + k];
                 }
             }
-            line[column] = sum % part;
-            console.log(line[column]);
+            line[column] = Math.floor(sum / part);
+            column++;
+            console.log(sum);
         }
         result[row] = line;
         row++;
