@@ -68,10 +68,11 @@ function prepareText(imageData) {
     let part = max / 4;
     let result = [];
 
+    let row = 0;
+
     for (let i = 0; i < imageData.height; i += 8) {
         let line = [];
         let column = 0;
-        let row = 0;
         for(let m = 0; m < imageData.width; m += 8) {
             let sum = 0;
             for (let j = 0; j < 8; j++) {
