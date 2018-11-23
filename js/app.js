@@ -124,7 +124,7 @@ function prepareText(imageData) {
                 for (let k = 0; k < 32; k += 4) {
                     for (let p = 0; p < 3; p++) {
                         //console.log(i * imageData.width + m + j * imageData.width * 4 + k + p);
-                        sum += imageData.data[i * imageData.width + m + j * imageData.width * 4 + k + p];
+                        sum += imageData.data[i * imageData.width * 4 + m + j * imageData.width * 4 + k + p];
                     }
                 }
             }
