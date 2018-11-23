@@ -1,7 +1,17 @@
 let gCanvas = undefined;
 let step = 4;
 
-symbols = [String.fromCharCode(9607), '#', ':', '.', ' '];
+symbols = ['\u28ff', '\u283f', '\u2805', '\u2802', '\u2800'];
+
+// for(var i=32;i<2379;++i) console.log(String.fromCharCode(i));
+
+
+// function unicodeToChar(text) {
+//     return text.replace(/\\u[\dA-F]{4}/gi,
+//         function (match) {
+//             return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
+//         });
+// }
 
 
 Array.matrix = function(numrows, numcols, initial) {
