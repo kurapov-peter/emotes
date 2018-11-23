@@ -1,7 +1,7 @@
 let gCanvas = undefined;
 let step = 4;
 
-symbols = [String.fromCharCode(9607), '#', ':', '.'];
+symbols = [String.fromCharCode(9607), '#', ':', '.', ' '];
 
 
 Array.matrix = function(numrows, numcols, initial) {
@@ -78,12 +78,17 @@ function processRequest() {
 
 function generateTextImage(dataArray) {
     let text = [];
+    let mult = [];
     for (let i = 0; i < dataArray.length; i += 1) {
+        let tmp = [];
         for (let j = 0; j < dataArray[i].length; j += 1) {
-            text.push(symbols[dataArray[i][j]])
+            text.push(symbols[dataArray[i][j]]);
+            tmp.push(symbols[dataArray[i][j]]);
         }
+        mult.push(tmp)
     }
 
+    console.log(mult);
     console.log(text);
     return text.join("")
 }
