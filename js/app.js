@@ -59,10 +59,37 @@ function processRequest() {
 }
 
 
+function prepareText(imageData) {
+    let max = 8 * 8 * 255;
+    let part = max / 4;
+    let result = [];
+
+    for (let i = 0; i < imageData.height; i += 8) {
+        let line = [];
+        let column = 0;
+        let row = 0;
+        for (let j = 0; j < imageData.width; j += 8) {
+            let sum = 0;
+            for (let k = 0; k < 8; k ++) {
+                for (let l = 0; l < 8; l++) {
+                    sum += imageData[i + k][j + l];
+                }
+            }
+            line[column] = sum % part;
+            console.log(line[column]);
+        }
+        result[row] = line;
+        row++;
+    }
+}
+
 function makeItGray(imageData) {
-    let threshold = 200;
     for (let i = 0; i < imageData.data.length; i+=4) {
-        imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = imageData.data[i] > threshold ? 255 : 0;
+        var luma = Math.floor(imageData.data[i] * 0.3 +
+            imageData.data[i+1] * 0.59 +
+            imageData.data[i+2] * 0.11);
+        imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = luma;
+        imageData.data[i+3] = 255;
     }
 }
 
