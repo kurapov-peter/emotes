@@ -3,11 +3,11 @@ function handleFileSelect(evt) {
     console.log(file.name);
 
     if (file) {
-        var reader = new FileReader();
+        let reader = new FileReader();
         reader.onload = function(e) {
-            var img = document.createElement("img");
+            let img = document.createElement("img");
             img.src = e.target.result;
-            var canvas = resizeImage(img, file);
+            let canvas = resizeImage(img, file);
 
             console.log(canvas);
 
@@ -19,7 +19,26 @@ function handleFileSelect(evt) {
 
 }
 
+function getCurrentPicture() {
+    return null
+}
+
 document.getElementById('myFile').addEventListener('change', handleFileSelect, false);
+
+
+function getAsciiPictureRepresentation(pic) {
+    return undefined;
+}
+
+function drawTheResult(asciiText) {
+    alert(asciiText)
+}
+
+function processRequest() {
+    let pic = getCurrentPicture();
+    let ascii = getAsciiPictureRepresentation(pic);
+    drawTheResult(ascii)
+}
 
 function resizeImage(img, file) {
     var canvas = document.createElement("canvas");
