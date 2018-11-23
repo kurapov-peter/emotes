@@ -100,7 +100,7 @@ function printResultToTextArea(str) {
 }
 
 function prepareText(imageData) {
-    let max = 8 * 8 * 255;
+    let max = 4 * 8 * 8 * 255;
     let part = max / 4;
     let result = [];
 
@@ -113,8 +113,10 @@ function prepareText(imageData) {
             let sum = 0;
             for (let j = 0; j < 8; j++) {
                 for (let k = 0; k < 8; k++) {
-                    //console.log(i * 8 * imageData.width + m + j * imageData.width + k);
-                    sum += imageData.data[i * imageData.width + m + j * imageData.width + k];
+                    for (let p = 0; p < 4; p++) {
+                        //console.log(i * 8 * imageData.width + m + j * imageData.width + k);
+                        sum += imageData.data[i * imageData.width + m + j * imageData.width + k];
+                    }
                 }
             }
             line[column] = Math.floor(sum / part);
@@ -127,23 +129,7 @@ function prepareText(imageData) {
 
     console.log(result);
 
-    /*for (let i = 0; i < imageData.height; i += 8) {
-        let line = [];
-        let column = 0;
-        let row = 0;
-        for (let j = 0; j < imageData.width; j += 8) {
-            let sum = 0;
-            for (let k = 0; k < 8; k ++) {
-                for (let l = 0; l < 8; l++) {
-                    sum += imageData[i + k][j + l];
-                }
-            }
-            line[column] = sum % part;
-            console.log(line[column]);
-        }
-        result[row] = line;
-        row++;
-    }*/
+    return result;
 }
 
 function makeItGray(imageData) {
