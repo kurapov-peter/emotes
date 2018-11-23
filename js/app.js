@@ -80,7 +80,7 @@ function generateTextImage(dataArray) {
 function getMatrixFromImageData(imgData) {
     // let res = Array.matrix(50, 50, 0);
     // let res = new Array(5).fill(0).map(() => new Array(4).fill(0));
-    let res = new Array(50*50).fill(0);
+    let res = new Array(400*400).fill(0);
     // matrix [i][j] -> arr [ i*m + j ]
 
     for (let i = 0, j = 0; i < imgData.data.length; i += 4, j += 1) {
