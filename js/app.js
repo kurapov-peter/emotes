@@ -21,25 +21,56 @@ function handleFileSelect(evt) {
 
 }
 
-function getCurrentPicture() {
-    return null
-}
 
 document.getElementById('myFile').addEventListener('change', handleFileSelect, false);
 
 
+// function processRequest() {
+//
+// }
+
+function processRequest() {
+    var img = document.getElementById("preview");
+    console.log(img);
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    console.log(ctx);
+
+    let imgData = ctx.getImageData(0, 0, img.width, img.height);
+    console.log(imgData);
+
+    document.getElementById('preview2').src = canvas.toDataURL();
+
+    // let pic = getCurrentPicture();
+    // let ascii = getAsciiPictureRepresentation(pic);
+    // drawTheResult(ascii)
+}
+
+
+function makeItGray(imageData) {
+    let threshold = 100;
+    for (let i = 0; i < imageData.data.length; i+=4) {
+        imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = imageData.data[i] > threshold ? 255 : 0;
+    }
+}
+
+function getCurrentPicture() {
+    let img = document.getElementById("preview");
+    console.log(img);
+    return img
+}
+
 function getAsciiPictureRepresentation(pic) {
+    var ctx = pic.getContext("2d");
+    let imgData = ctx.getImageData(0, 0, pic.width, pic.height);
+    console.log(imgData);
     return undefined;
 }
 
 function drawTheResult(asciiText) {
     alert(asciiText)
-}
-
-function processRequest() {
-    let pic = getCurrentPicture();
-    let ascii = getAsciiPictureRepresentation(pic);
-    drawTheResult(ascii)
 }
 
 function resizeImage(img, file) {
