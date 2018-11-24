@@ -55,35 +55,41 @@ document.getElementById('myFile').addEventListener('change', handleFileSelect, f
 
 
 function processRequest() {
-    var ctx = gCanvas.getContext("2d");
-    console.log(ctx);
-    let imgData = ctx.getImageData(0, 0, gCanvas.width, gCanvas.height);
-
+    let imgData = getCurrentPictureData();
     //makeItGray(imgData);
-    makeItBlackAndWhite(imgData);
 
-    console.log(imgData);
-
-    res = prepareText(imgData);
-
-    //ctx.putImageData(imgData, 0, 0);
-
-    let matr = getMatrixFromImageData(imgData);
-    console.log(matr);
+    let res = prepareText(imgData);
+    // let matr = getMatrixFromImageData(imgData);
 
     let text = generateTextImage(res);
     printResultToTextArea(text);
 
+    // Just print stuff for fun
     makeItBlackAndWhite(imgData);
-
-    ctx.putImageData(imgData, 0, 0);
+    gCanvas.getContext("2d").putImageData(imgData, 0, 0);
 
     document.getElementById('preview2').src = gCanvas.toDataURL();
     // document.getElementById('output').innerHTML = text
 
-    // let pic = getCurrentPicture();
+
     // let ascii = getAsciiPictureRepresentation(pic);
     // drawTheResult(ascii)
+}
+
+function getCurrentPictureData() {
+    var ctx = gCanvas.getContext("2d");
+    return ctx.getImageData(0, 0, gCanvas.width, gCanvas.height)
+}
+
+function getAsciiPictureRepresentation(pic) {
+    var ctx = pic.getContext("2d");
+    let imgData = ctx.getImageData(0, 0, pic.width, pic.height);
+    console.log(imgData);
+    return undefined;
+}
+
+function drawTheResult(asciiText) {
+    alert(asciiText)
 }
 
 
@@ -108,16 +114,13 @@ function generateTextImage(dataArray) {
 function getMatrixFromImageData(imgData) {
     // let res = Array.matrix(50, 50, 0);
     // let res = new Array(5).fill(0).map(() => new Array(4).fill(0));
+    console.log(imgData.width, imgData.height);
     let res = new Array(400*400).fill(0);
     // matrix [i][j] -> arr [ i*m + j ]
 
     for (let i = 0, j = 0; i < imgData.data.length; i += 4, j += 1) {
         // console.log(j, Math.floor(j / 50), j % 50);
-        res[j] =
-            imgData.data[i] +
-            imgData.data[i + 1] +
-            imgData.data[i + 2] +
-            imgData.data[i + 3]
+        res[j] = (19595*imgData.data[i] + 38470*imgData.data[i + 1] + 7471*imgData.data[i + 2] + 1<<15) >> 24;
     }
 
     return res
@@ -125,6 +128,11 @@ function getMatrixFromImageData(imgData) {
 
 function printResultToTextArea(str) {
     document.getElementById("pictext").value = str
+}
+
+
+function superTextTransform(imageData) {
+
 }
 
 function prepareText(imageData) {
@@ -152,7 +160,7 @@ function prepareText(imageData) {
             }
             line[column] = Math.floor(sum / part);
             column++;
-            console.log(sum);
+            // console.log(sum);
         }
         result[row] = line;
         row++;
@@ -173,6 +181,15 @@ function makeItGray(imageData) {
     }
 }
 
+function makeItGrayFast(imgData) {
+    for (let i = 0; i < imgData.data.length; i += 4) {
+        // console.log(j, Math.floor(j / 50), j % 50);
+        let luma = (19595*imgData.data[i] + 38470*imgData.data[i + 1] + 7471*imgData.data[i + 2] + 1<<15) >> 24;
+        imgData.data[i] = imgData.data[i+1] = imgData[i+2] = luma;
+        image.data[i+3] = 255;
+    }
+}
+
 function makeItBlackAndWhite(imageData) {
     let threshold = 125;
     for (let i = 0; i < imageData.data.length; i+=4) {
@@ -180,51 +197,32 @@ function makeItBlackAndWhite(imageData) {
     }
 }
 
-function getCurrentPicture() {
-    let img = document.getElementById("preview");
-    console.log(img);
-    return img
-}
-
-function getAsciiPictureRepresentation(pic) {
-    var ctx = pic.getContext("2d");
-    let imgData = ctx.getImageData(0, 0, pic.width, pic.height);
-    console.log(imgData);
-    return undefined;
-}
-
-function drawTheResult(asciiText) {
-    alert(asciiText)
-}
 
 function resizeImage(img, file) {
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0);
 
-    var MAX_WIDTH = 400;
-    var MAX_HEIGHT = 400;
-    var width = img.width;
-    var height = img.height;
+    console.log('before:');
+    console.log(canvas.width, canvas.height);
+    console.log(img.width, img.height);
 
-    if (width > height) {
-        if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-        }
-    } else {
-        if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-        }
-    }
+    let MAX_WIDTH = 256;
+    // let MAX_HEIGHT = 256;
+    let width = img.width;
+    let height = img.height;
+
+    height *= MAX_WIDTH / width;
+    width = MAX_WIDTH;
 
     canvas.width = width;
     canvas.height = height;
 
     ctx.drawImage(img, 0, 0, width, height);
 
-    // dataurl = canvas.toDataURL(file.type);
+    console.log('after:');
+    console.log(canvas.width, canvas.height);
+    console.log(img.width, img.height);
 
     return canvas;
 }
