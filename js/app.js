@@ -1,7 +1,7 @@
 let gCanvas = undefined;
 let step = 4;
 
-symbols = ['\u28ff', '\u283f', '\u2805', '\u2802', '\u2800'];
+symbols = ['\u28ff', '\u283f', '\u286a', '\u2805', '\u2802'];
 
 // for(var i=32;i<2379;++i) console.log(String.fromCharCode(i));
 
@@ -79,6 +79,7 @@ function processRequest() {
     ctx.putImageData(imgData, 0, 0);
 
     document.getElementById('preview2').src = gCanvas.toDataURL();
+    // document.getElementById('output').innerHTML = text
 
     // let pic = getCurrentPicture();
     // let ascii = getAsciiPictureRepresentation(pic);
@@ -220,7 +221,7 @@ function resizeImage(img, file) {
 
     canvas.width = width;
     canvas.height = height;
-    var ctx = canvas.getContext("2d");
+
     ctx.drawImage(img, 0, 0, width, height);
 
     // dataurl = canvas.toDataURL(file.type);
