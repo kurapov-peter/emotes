@@ -4,41 +4,51 @@
     <title></title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
 
     <style type="text/css">
         textarea {
             font-size: 5pt;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            resize: vertical;
+            width: 180px;
+            height: 200px;
         }
     </style>
 </head>
 <body>
-
-<div class="row text-center">
-    <input class="text-center" id="myFile" name="myFile" type="file" accept="image/*">
-</div>
-
+<script src="js/bootstrap.min.js"></script>
 <script src="js/app.js" ></script>
-<img src="" id="preview">
-<img src="" id="preview2">
 
-
-<div class="row text-center">
-    <button onclick="processRequest()" type="button" class="btn btn-success">Get result!</button>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <input id="myFile" name="myFile" type="file" accept="image/*">
+        </div>
+        <div class="col">
+            <button onclick="processRequest()" type="button" class="btn btn-success">Get result!</button>
+        </div>
+        <div class="col">
+            <label for="pictext"></label><textarea id="pictext" size="200"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <img src="" alt="" id="preview" class="img-thumbnail">
+        </div>
+        <div class="col">
+            <button onclick="copyToClip()" type="button" class="btn btn-dark">Copy to clipboard</button>
+        </div>
+    </div>
 </div>
 
-<div class="row text-center">
-    <textarea id="pictext"></textarea>
-</div>
-<div class="row text-center">
-    <div id="output"></div>
-</div>
+
+
+
+<!--<img src="" id="preview2">-->
+<!--<img src="" id="preview3">-->
+
 
 </body>
 </html>
